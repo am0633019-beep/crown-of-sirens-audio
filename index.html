@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0C0C0F" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#F7F5EE" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0C0C0F">
+<meta name="color-scheme" content="dark light">
 <meta name="description" content="Crown of Sirens — draft audiobook by Adam Martin, for editing and feedback.">
 <meta property="og:title" content="Crown of Sirens">
 <meta property="og:description" content="Draft audiobook — Songs of the Eternal Oath, Book One. Written by Adam Martin.">
@@ -16,38 +16,7 @@
 <title>Crown of Sirens</title>
 <style>
 :root {
-  --bg:        #F7F5EE;
-  --bg-panel:  #EFEBE0;
-  --bg-hover:  #E7E1D2;
-  --ink:       #17171C;
-  --ink-soft:  #4A4A55;
-  --ink-mute:  #7A7A85;
-  --line:      #DED8C8;
-  --accent:    #B8823C;
-  --accent-soft:#E9D9B8;
-  --danger:    #B04A3A;
-  --shadow:    0 1px 2px rgba(20,20,26,0.04), 0 6px 24px rgba(20,20,26,0.06);
-  --radius:    10px;
-  --font-display: 'Newsreader', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
-  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg:        #0C0C0F;
-    --bg-panel:  #141418;
-    --bg-hover:  #1C1C22;
-    --ink:       #EDEBE4;
-    --ink-soft:  #B4B2AB;
-    --ink-mute:  #7A7A82;
-    --line:      #23232A;
-    --accent:    #D6A860;
-    --accent-soft:#3B2E1A;
-    --danger:    #D66856;
-    --shadow:    0 1px 2px rgba(0,0,0,0.5), 0 12px 40px rgba(0,0,0,0.4);
-  }
-}
-:root[data-theme="dark"] {
+  /* Dark palette is the default — matches the cover art. */
   --bg:        #0C0C0F;
   --bg-panel:  #141418;
   --bg-hover:  #1C1C22;
@@ -59,6 +28,23 @@
   --accent-soft:#3B2E1A;
   --danger:    #D66856;
   --shadow:    0 1px 2px rgba(0,0,0,0.5), 0 12px 40px rgba(0,0,0,0.4);
+  --radius:    10px;
+  --font-display: 'Newsreader', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+:root[data-theme="light"] {
+  --bg:        #F7F5EE;
+  --bg-panel:  #EFEBE0;
+  --bg-hover:  #E7E1D2;
+  --ink:       #17171C;
+  --ink-soft:  #4A4A55;
+  --ink-mute:  #7A7A85;
+  --line:      #DED8C8;
+  --accent:    #B8823C;
+  --accent-soft:#E9D9B8;
+  --danger:    #B04A3A;
+  --shadow:    0 1px 2px rgba(20,20,26,0.04), 0 6px 24px rgba(20,20,26,0.06);
 }
 
 * { box-sizing: border-box; }
@@ -435,16 +421,34 @@ h1 {
   overflow: hidden;
 }
 .nowplaying.open { transform: translateY(0); }
+.nowplaying .np-grab {
+  display: block; margin: 4px auto 12px;
+  width: 44px; height: 5px; border-radius: 3px;
+  background: var(--line);
+  border: none; padding: 0; cursor: pointer;
+  transition: background 120ms ease, transform 120ms ease;
+}
+.nowplaying .np-grab:hover { background: var(--ink-mute); transform: scaleY(1.4); }
 .nowplaying .np-header {
-  display: flex; justify-content: flex-end; margin-bottom: 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px; padding: 0 4px;
 }
-.nowplaying .np-close {
-  background: transparent; border: none; color: var(--ink); cursor: pointer;
-  width: 44px; height: 44px; display: grid; place-items: center;
-  border-radius: 50%; padding: 0;
+.nowplaying .np-back-lib {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; border: none; padding: 10px 14px 10px 10px;
+  border-radius: 999px; cursor: pointer;
+  color: var(--ink);
+  font-family: var(--font-body); font-size: 13px; font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: background 120ms ease;
+  -webkit-tap-highlight-color: transparent;
 }
-.nowplaying .np-close:hover { background: var(--bg-hover); }
-.nowplaying .np-close svg { width: 18px; height: 18px; }
+.nowplaying .np-back-lib:hover { background: var(--bg-hover); }
+.nowplaying .np-back-lib svg { width: 18px; height: 18px; flex-shrink: 0; }
+.nowplaying .np-eyebrow-mini {
+  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-mute);
+}
 .nowplaying .np-body {
   flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 32px; max-width: 460px; margin: 0 auto; width: 100%;
@@ -654,10 +658,14 @@ footer {
 </div>
 
 <div class="nowplaying" id="nowplaying" role="region" aria-label="Now playing" hidden>
+  <button class="np-grab" id="npGrab" aria-label="Close now playing"></button>
   <div class="np-header">
-    <button class="np-close" id="npClose" aria-label="Collapse player">
-      <svg viewBox="0 0 24 24"><path d="M7 14l5-5 5 5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="rotate(180 12 12)"/></svg>
+    <button class="np-back-lib" id="npClose" aria-label="Back to library">
+      <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Library</span>
     </button>
+    <span class="np-eyebrow-mini">Now Playing</span>
+    <span style="width:88px"></span>
   </div>
   <div class="np-body">
     <div class="np-cover"><img src="./cover.jpg" alt="Crown of Sirens cover"></div>
@@ -842,6 +850,22 @@ function closeNowPlaying() {
 miniCover.addEventListener('click', openNowPlaying);
 miniMeta.addEventListener('click', openNowPlaying);
 npCloseBtn.addEventListener('click', closeNowPlaying);
+document.getElementById('npGrab').addEventListener('click', closeNowPlaying);
+// Swipe down to close on touch devices
+let touchStartY = null;
+nowplayingEl.addEventListener('touchstart', (e) => {
+  if (e.touches.length === 1) touchStartY = e.touches[0].clientY;
+}, {passive: true});
+nowplayingEl.addEventListener('touchend', (e) => {
+  if (touchStartY == null) return;
+  const dy = (e.changedTouches[0]?.clientY || 0) - touchStartY;
+  if (dy > 90) closeNowPlaying();
+  touchStartY = null;
+}, {passive: true});
+// Escape key closes
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !nowplayingEl.hidden) closeNowPlaying();
+});
 npPlayBtn.addEventListener('click', () => {
   if (audio.paused) audio.play().catch(() => {}); else audio.pause();
 });
