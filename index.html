@@ -455,12 +455,56 @@ h1 {
 }
 .nowplaying .np-cover {
   width: min(360px, 72vw); aspect-ratio: 1;
-  border-radius: 12px; overflow: hidden;
+  perspective: 1200px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.nowplaying .np-cover-inner {
+  position: relative; width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 700ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  border-radius: 12px;
   box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 6px 20px rgba(0,0,0,0.3);
+}
+.nowplaying .np-cover.flipped .np-cover-inner { transform: rotateY(180deg); }
+.nowplaying .np-face {
+  position: absolute; inset: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 12px; overflow: hidden;
   background: var(--bg-panel);
   border: 1px solid var(--line);
 }
-.nowplaying .np-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.nowplaying .np-face-front img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.nowplaying .np-face-back {
+  transform: rotateY(180deg);
+  background: radial-gradient(circle at 50% 40%, #1c1c22 0%, #0a0a0d 100%);
+  padding: 32px 28px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center;
+  gap: 18px;
+}
+.nowplaying .np-face-back .flip-eyebrow {
+  font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--accent);
+}
+.nowplaying .np-face-back .flip-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(24px, 6vw, 34px);
+  line-height: 1.15; letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: balance;
+  margin: 0;
+}
+.nowplaying .np-face-back .flip-hint {
+  margin-top: 6px;
+  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.nowplaying .np-face-back .flip-rule {
+  width: 40px; height: 1px; background: var(--line); margin: 2px 0;
+}
 .nowplaying .np-info { text-align: center; width: 100%; }
 .nowplaying .np-sub {
   font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
@@ -668,7 +712,17 @@ footer {
     <span style="width:88px"></span>
   </div>
   <div class="np-body">
-    <div class="np-cover"><img src="./cover.jpg" alt="Crown of Sirens cover"></div>
+    <div class="np-cover" id="npCover" role="button" tabindex="0" aria-label="Flip cover for chapter details">
+      <div class="np-cover-inner">
+        <div class="np-face np-face-front"><img src="./cover.jpg" alt="Crown of Sirens cover"></div>
+        <div class="np-face np-face-back">
+          <div class="flip-eyebrow" id="flipEyebrow">Chapter</div>
+          <div class="flip-rule"></div>
+          <h3 class="flip-title" id="flipTitle">—</h3>
+          <div class="flip-hint">tap to flip back</div>
+        </div>
+      </div>
+    </div>
     <div class="np-info">
       <div class="np-sub" id="npSub">Now playing</div>
       <h2 class="np-title" id="npTitle">—</h2>
@@ -898,6 +952,11 @@ function playChapter(id) {
     nowSub.textContent = chapterSub(c);
     npTitle.textContent = c.title;
     npSub.textContent = chapterSub(c);
+    // Populate the flip-side of the album cover with this chapter's info
+    document.getElementById('flipEyebrow').textContent = chapterSub(c);
+    document.getElementById('flipTitle').textContent = c.title;
+    // Reset the flip if it was showing the previous chapter's back
+    document.getElementById('npCover').classList.remove('flipped');
     updateMediaSession(c);
     const positions = loadPositions();
     if (positions[id]) {
@@ -908,7 +967,17 @@ function playChapter(id) {
   }
   playerEl.classList.add('active');
   audio.play().catch(() => {});
+  // Auto-open Now Playing on chapter start so the cover comes forward
+  openNowPlaying();
 }
+
+// Flip the album cover to show chapter details, and back
+const npCoverEl = document.getElementById('npCover');
+function toggleFlip() { npCoverEl.classList.toggle('flipped'); }
+npCoverEl.addEventListener('click', toggleFlip);
+npCoverEl.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFlip(); }
+});
 
 playBtn.addEventListener('click', () => {
   if (audio.paused) audio.play().catch(() => {}); else audio.pause();
