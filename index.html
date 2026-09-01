@@ -1,0 +1,739 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0C0C0F" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F7F5EE" media="(prefers-color-scheme: light)">
+<meta name="description" content="Crown of Sirens — an audiobook by Adam Martin, Book One of Songs of the Eternal Oath.">
+<meta property="og:title" content="Crown of Sirens">
+<meta property="og:description" content="An audiobook — Songs of the Eternal Oath, Book One. Written and read by Adam Martin.">
+<meta property="og:type" content="music.album">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20y%3D%22.9em%22%20font-size%3D%2290%22%3E%F0%9F%93%96%3C%2Ftext%3E%3C%2Fsvg%3E">
+<style>html,body{margin:0;padding:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Crown of Sirens</title>
+<style>
+:root {
+  --bg:        #F7F5EE;
+  --bg-panel:  #EFEBE0;
+  --bg-hover:  #E7E1D2;
+  --ink:       #17171C;
+  --ink-soft:  #4A4A55;
+  --ink-mute:  #7A7A85;
+  --line:      #DED8C8;
+  --accent:    #B8823C;
+  --accent-soft:#E9D9B8;
+  --danger:    #B04A3A;
+  --shadow:    0 1px 2px rgba(20,20,26,0.04), 0 6px 24px rgba(20,20,26,0.06);
+  --radius:    10px;
+  --font-display: 'Newsreader', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:        #0C0C0F;
+    --bg-panel:  #141418;
+    --bg-hover:  #1C1C22;
+    --ink:       #EDEBE4;
+    --ink-soft:  #B4B2AB;
+    --ink-mute:  #7A7A82;
+    --line:      #23232A;
+    --accent:    #D6A860;
+    --accent-soft:#3B2E1A;
+    --danger:    #D66856;
+    --shadow:    0 1px 2px rgba(0,0,0,0.5), 0 12px 40px rgba(0,0,0,0.4);
+  }
+}
+:root[data-theme="dark"] {
+  --bg:        #0C0C0F;
+  --bg-panel:  #141418;
+  --bg-hover:  #1C1C22;
+  --ink:       #EDEBE4;
+  --ink-soft:  #B4B2AB;
+  --ink-mute:  #7A7A82;
+  --line:      #23232A;
+  --accent:    #D6A860;
+  --accent-soft:#3B2E1A;
+  --danger:    #D66856;
+  --shadow:    0 1px 2px rgba(0,0,0,0.5), 0 12px 40px rgba(0,0,0,0.4);
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.55;
+  margin: 0;
+  padding: 0 20px calc(180px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 100vh;
+  overscroll-behavior-y: none;
+}
+@media (max-width: 560px) {
+  body { padding: 0 16px calc(180px + env(safe-area-inset-bottom, 0px)); }
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.wrap { max-width: 780px; margin: 0 auto; }
+
+/* ---------- Header ---------- */
+header {
+  padding: 64px 0 40px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 24px;
+  display: grid;
+  grid-template-columns: 128px 1fr;
+  gap: 28px;
+  align-items: end;
+}
+@media (max-width: 560px) {
+  header { grid-template-columns: 96px 1fr; gap: 20px; padding-top: 40px; }
+}
+
+/* Decorative "cover" square: geometric mark, no fantasy tropes */
+.cover {
+  width: 128px; height: 128px;
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, var(--bg-panel) 0%, var(--bg-hover) 100%);
+  border: 1px solid var(--line);
+  display: grid; place-items: center;
+  position: relative; overflow: hidden;
+}
+@media (max-width: 560px) { .cover { width: 96px; height: 96px; } }
+.cover svg { width: 62%; height: 62%; }
+.cover .glyph { stroke: var(--accent); fill: none; stroke-width: 1.25; }
+.cover .glyph-fill { fill: var(--accent); opacity: 0.14; }
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(38px, 6vw, 56px);
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  margin: 0 0 10px;
+  text-wrap: balance;
+}
+.byline {
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* ---------- About / intro copy ---------- */
+.intro {
+  padding: 20px 0 8px;
+  color: var(--ink-soft);
+  font-size: 15.5px;
+  max-width: 62ch;
+}
+.intro p { margin: 0 0 12px; }
+
+/* ---------- Section labels ---------- */
+.section-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  padding: 32px 0 12px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 8px;
+  display: flex; justify-content: space-between; align-items: baseline;
+}
+.section-label .count { color: var(--ink-mute); font-weight: 400; font-size: 11px; letter-spacing: 0.06em; text-transform: none; }
+
+/* ---------- Chapter rows ---------- */
+.chapters { list-style: none; margin: 0; padding: 0; }
+.row {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 12px;
+  border-radius: var(--radius);
+  cursor: default;
+  border: 1px solid transparent;
+  transition: background 120ms ease, border-color 120ms ease;
+  min-height: 56px;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.row.available { cursor: pointer; }
+@media (hover: hover) {
+  .row.available:hover { background: var(--bg-hover); border-color: var(--line); }
+}
+.row.available:active { background: var(--bg-hover); border-color: var(--line); }
+.row.playing { background: var(--bg-panel); border-color: var(--line); }
+
+.row .num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-mute);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.row.frame .num, .row.interlude .num { font-style: normal; }
+
+.row .body .title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  line-height: 1.25;
+}
+.row.interlude .body .title { font-style: italic; color: var(--ink-soft); font-size: 16px; }
+.row.frame .body .title { font-style: italic; color: var(--ink); font-size: 17px; }
+.row .body .meta {
+  font-size: 12px;
+  color: var(--ink-mute);
+  margin-top: 3px;
+  font-variant-numeric: tabular-nums;
+}
+.row .body .kicker {
+  font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 4px;
+}
+.row.interlude .body .kicker { color: var(--ink-mute); }
+
+.row .action {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-soft);
+  padding: 0;
+  cursor: inherit;
+  transition: all 120ms ease;
+  flex-shrink: 0;
+}
+.row.available .action {
+  color: var(--ink);
+  border-color: var(--line);
+}
+@media (hover: hover) {
+  .row.available:hover .action {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+}
+.row.playing .action {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+.row .action svg { width: 14px; height: 14px; }
+.row.pending .action, .row.ready .action {
+  color: var(--ink-mute);
+  border-color: transparent;
+}
+.row.pending .body .title, .row.ready .body .title {
+  color: var(--ink-mute);
+}
+.row.frame { padding-top: 22px; padding-bottom: 22px; }
+.row.interlude { margin-left: 20px; }
+@media (max-width: 560px) {
+  .row.interlude { margin-left: 12px; }
+  .row { grid-template-columns: 34px 1fr auto; gap: 10px; padding: 12px 8px; }
+}
+
+/* ---------- Feedback ---------- */
+.feedback {
+  margin-top: 56px;
+  padding: 28px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.feedback h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 24px;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+.feedback p.hint {
+  color: var(--ink-soft); font-size: 14px; margin: 0 0 20px; max-width: 55ch;
+}
+.field { display: block; margin-bottom: 14px; }
+.field label {
+  display: block; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-mute); margin-bottom: 6px;
+}
+.field input, .field select, .field textarea {
+  width: 100%; padding: 12px 14px; color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line); border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 16px; /* prevents iOS Safari zoom on focus */
+  line-height: 1.5;
+  transition: border-color 120ms ease;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none; border-color: var(--accent);
+}
+.field textarea { min-height: 140px; resize: vertical; }
+.submit {
+  background: var(--accent); color: var(--bg);
+  border: none; padding: 14px 26px; font-family: var(--font-body); font-weight: 600; font-size: 15px;
+  border-radius: 8px; cursor: pointer; letter-spacing: 0.02em;
+  transition: filter 120ms ease;
+  min-height: 48px; width: 100%;
+}
+@media (min-width: 561px) { .submit { width: auto; } }
+.submit:hover { filter: brightness(1.08); }
+.sent { color: var(--accent); font-size: 14px; margin-top: 8px; display: none; }
+
+/* ---------- Sticky player ---------- */
+.player {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  background: var(--bg-panel);
+  border-top: 1px solid var(--line);
+  padding: 12px 20px calc(12px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+  z-index: 20;
+  transform: translateY(120%);
+  transition: transform 220ms ease;
+  box-shadow: var(--shadow);
+  backdrop-filter: saturate(140%);
+}
+.player.active { transform: translateY(0); }
+.player-inner {
+  max-width: 780px; margin: 0 auto;
+  display: grid; grid-template-columns: 48px 1fr 44px 40px; gap: 12px; align-items: center;
+}
+@media (max-width: 560px) {
+  .player-inner { grid-template-columns: 44px 1fr 40px 36px; gap: 10px; }
+}
+.player .play-btn {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--accent); border: none; color: var(--bg);
+  display: grid; place-items: center; cursor: pointer;
+}
+@media (max-width: 560px) { .player .play-btn { width: 44px; height: 44px; } }
+.player .play-btn svg { width: 18px; height: 18px; }
+.player .skip-btn {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: transparent; border: 1px solid var(--line);
+  color: var(--ink); display: grid; place-items: center; cursor: pointer;
+  position: relative;
+}
+@media (max-width: 560px) { .player .skip-btn { width: 40px; height: 40px; } }
+.player .skip-btn svg { width: 16px; height: 16px; }
+.player .skip-btn .num {
+  position: absolute; font-family: var(--font-mono); font-size: 9px;
+  color: var(--ink); pointer-events: none;
+}
+.player .meta { min-width: 0; }
+.player .meta .now-title {
+  font-family: var(--font-display); font-size: 16px; color: var(--ink);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  line-height: 1.2;
+}
+.player .meta .now-sub {
+  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-mute); margin-bottom: 3px;
+}
+.player .scrub {
+  grid-column: 1 / -1; margin-top: 10px;
+  display: grid; grid-template-columns: 44px 1fr 44px; gap: 10px; align-items: center;
+  font-family: var(--font-mono); font-size: 11px; color: var(--ink-mute);
+  font-variant-numeric: tabular-nums;
+}
+.player .scrub input[type=range] {
+  width: 100%; -webkit-appearance: none; appearance: none;
+  height: 24px; /* wide hit area on touch */
+  background: transparent; outline: none; margin: 0;
+}
+.player .scrub input[type=range]::-webkit-slider-runnable-track {
+  height: 4px; background: var(--line); border-radius: 2px;
+}
+.player .scrub input[type=range]::-moz-range-track {
+  height: 4px; background: var(--line); border-radius: 2px;
+}
+.player .scrub input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 18px; height: 18px; background: var(--accent); border-radius: 50%;
+  cursor: pointer; margin-top: -7px; border: 2px solid var(--bg-panel);
+}
+.player .scrub input[type=range]::-moz-range-thumb {
+  width: 18px; height: 18px; background: var(--accent); border-radius: 50%;
+  cursor: pointer; border: 2px solid var(--bg-panel);
+}
+.player .close-btn {
+  background: transparent; border: none; color: var(--ink-mute); cursor: pointer;
+  padding: 0; font-size: 26px; line-height: 1;
+  width: 40px; height: 40px; display: grid; place-items: center;
+  border-radius: 50%;
+}
+@media (max-width: 560px) { .player .close-btn { width: 36px; height: 36px; font-size: 22px; } }
+.player .close-btn:hover { color: var(--ink); background: var(--bg-hover); }
+
+/* ---------- Theme toggle ---------- */
+.theme-toggle {
+  position: fixed;
+  top: calc(14px + env(safe-area-inset-top, 0px));
+  right: max(14px, env(safe-area-inset-right, 0px));
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  padding: 8px 12px; border-radius: 999px;
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  cursor: pointer; z-index: 30;
+  min-height: 34px;
+}
+.theme-toggle:hover { color: var(--ink); }
+
+/* Footer */
+footer {
+  text-align: center; padding: 40px 0 20px;
+  color: var(--ink-mute); font-size: 12px;
+}
+</style>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+
+
+</head>
+<body>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">Theme</button>
+
+<div class="wrap">
+  <header>
+    <div class="cover" aria-hidden="true">
+      <svg viewBox="0 0 64 64">
+        <!-- Simple emblem: an upright line intersecting three tiers, hinting at "an upright sword going up through a crown of three towers" -->
+        <path class="glyph" d="M32 8 L32 56" />
+        <path class="glyph" d="M18 22 L46 22" />
+        <path class="glyph" d="M14 34 L50 34" />
+        <path class="glyph" d="M20 46 L44 46" />
+        <circle class="glyph-fill" cx="32" cy="14" r="3.5" />
+      </svg>
+    </div>
+    <div>
+      <div class="eyebrow">Songs of the Eternal Oath · Book One</div>
+      <h1>Crown of Sirens</h1>
+      <p class="byline">Written and read by Adam Martin</p>
+    </div>
+  </header>
+
+  <section class="intro">
+    <p>You asked me, in the yard, why I never talk about it. The honest answer is that I have been putting it off for eleven years and running out of reasons.</p>
+    <p>What follows is Elion's account of the year the sand turned. Set down as truthfully as one man can, eleven years on — with all the qualifications that entails.</p>
+  </section>
+
+  <div class="section-label">
+    <span>The Recording</span>
+    <span class="count" id="progressCount">—</span>
+  </div>
+
+  <ul class="chapters" id="chapterList"></ul>
+
+  <div class="feedback">
+    <h2>Send the author a note</h2>
+    <p class="hint">Feedback goes privately to Adam by email. Nobody else sees it. Anything — a moment that landed, a line that jarred, a chapter you had to relisten to.</p>
+    <form id="feedbackForm">
+      <div class="field">
+        <label for="fbChapter">On which chapter</label>
+        <select id="fbChapter" name="chapter"></select>
+      </div>
+      <div class="field">
+        <label for="fbName">Your name (optional)</label>
+        <input type="text" id="fbName" name="name" placeholder="However you'd like to be addressed">
+      </div>
+      <div class="field">
+        <label for="fbNote">Your note</label>
+        <textarea id="fbNote" name="note" placeholder="What did you make of it?" required></textarea>
+      </div>
+      <button type="submit" class="submit">Send</button>
+      <div class="sent" id="fbSent">Your mail client is opening — hit send there and it's away.</div>
+    </form>
+  </div>
+
+  <footer>© 2026 Adam Martin. All rights reserved.</footer>
+</div>
+
+<div class="player" id="player" role="region" aria-label="Audio player">
+  <div class="player-inner">
+    <button class="play-btn" id="playBtn" aria-label="Play or pause">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+    </button>
+    <div class="meta">
+      <div class="now-sub" id="nowSub">Now playing</div>
+      <div class="now-title" id="nowTitle">—</div>
+    </div>
+    <button class="skip-btn" id="fwdBtn" aria-label="Skip forward 15 seconds">
+      <svg viewBox="0 0 24 24"><path d="M12 5V2L7 6l5 4V7c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6H4c0 4.4 3.6 8 8 8s8-3.6 8-8-3.6-8-8-8z" fill="currentColor"/></svg>
+      <span class="num">15</span>
+    </button>
+    <button class="close-btn" id="closeBtn" aria-label="Close player">×</button>
+    <div class="scrub">
+      <span id="curTime">0:00</span>
+      <input type="range" id="scrubber" min="0" max="100" value="0" step="0.1" aria-label="Playback position">
+      <span id="totTime">0:00</span>
+    </div>
+  </div>
+  <audio id="audio" preload="metadata" playsinline></audio>
+</div>
+
+<script>
+const CHAPTERS = [{"id": "c0", "kind": "frame", "num": null, "label": "Before", "title": "Fen", "audio": "./intro.mp3", "status": "available", "durationSec": 51.8}, {"id": "c1", "kind": "chapter", "num": 1, "label": null, "title": "Dust, Blood and Steel", "audio": "./01.mp3", "status": "available", "durationSec": 1512.2}, {"id": "c2", "kind": "chapter", "num": 2, "label": null, "title": "Knights in Waiting", "audio": "./02.mp3", "status": "available", "durationSec": 1280.5}, {"id": "c3", "kind": "chapter", "num": 3, "label": null, "title": "The Night Between", "audio": "./03.mp3", "status": "available", "durationSec": 1046.2}, {"id": "c4", "kind": "chapter", "num": 4, "label": null, "title": "What We Do Not Ask For", "audio": "./04.mp3", "status": "available", "durationSec": 847.0}, {"id": "c5", "kind": "chapter", "num": 5, "label": null, "title": "Below", "audio": "./05.mp3", "status": "available", "durationSec": 895.4}, {"id": "c6", "kind": "chapter", "num": 6, "label": null, "title": "The Crowning Chamber", "audio": "./06.mp3", "status": "available", "durationSec": 1122.5}, {"id": "c7", "kind": "chapter", "num": 7, "label": null, "title": "A Fractured Vow", "audio": "./07.mp3", "status": "available", "durationSec": null}, {"id": "c8", "kind": "chapter", "num": 8, "label": null, "title": "Gold in the Dark", "audio": "./08.mp3", "status": "available", "durationSec": null}, {"id": "c9", "kind": "chapter", "num": 9, "label": null, "title": "The Gap at the Tannery", "audio": "./09.mp3", "status": "available", "durationSec": null}, {"id": "c10", "kind": "chapter", "num": 10, "label": null, "title": "Shale", "audio": "./10.mp3", "status": "available", "durationSec": null}, {"id": "c11", "kind": "interlude", "num": null, "label": "Interlude", "title": "The First List", "audio": "./interlude-first-list.mp3", "status": "available", "durationSec": null}, {"id": "c12", "kind": "chapter", "num": 11, "label": null, "title": "The Watchpost", "audio": "./11.mp3", "status": "available", "durationSec": null}, {"id": "c13", "kind": "chapter", "num": 12, "label": null, "title": "The Staggering Goat", "audio": "./12.mp3", "status": "available", "durationSec": null}, {"id": "c14", "kind": "chapter", "num": 13, "label": null, "title": "Traded", "audio": "./13.mp3", "status": "available", "durationSec": null}, {"id": "c15", "kind": "chapter", "num": 14, "label": null, "title": "Stories Told with Dirt Underfoot", "audio": "./14.mp3", "status": "available", "durationSec": null}, {"id": "c16", "kind": "chapter", "num": 15, "label": null, "title": "The Village of Living Wood", "audio": "./15.mp3", "status": "available", "durationSec": null}, {"id": "c17", "kind": "chapter", "num": 16, "label": null, "title": "Watched", "audio": null, "status": "pending", "durationSec": null}, {"id": "c18", "kind": "chapter", "num": 17, "label": null, "title": "The Wrong Move", "audio": null, "status": "pending", "durationSec": null}, {"id": "c19", "kind": "interlude", "num": null, "label": "Interlude", "title": "The Promotion", "audio": null, "status": "pending", "durationSec": null}, {"id": "c20", "kind": "chapter", "num": 18, "label": null, "title": "The City of Sunlight", "audio": null, "status": "pending", "durationSec": null}, {"id": "c21", "kind": "chapter", "num": 19, "label": null, "title": "Liraeth", "audio": null, "status": "pending", "durationSec": null}, {"id": "c22", "kind": "chapter", "num": 20, "label": null, "title": "The Bargain", "audio": null, "status": "pending", "durationSec": null}, {"id": "c23", "kind": "interlude", "num": null, "label": "Interlude", "title": "Nothing Useful", "audio": null, "status": "pending", "durationSec": null}, {"id": "c24", "kind": "chapter", "num": 21, "label": null, "title": "Guests", "audio": null, "status": "pending", "durationSec": null}, {"id": "c25", "kind": "chapter", "num": 22, "label": null, "title": "The Rites", "audio": null, "status": "pending", "durationSec": null}, {"id": "c26", "kind": "chapter", "num": 23, "label": null, "title": "The Muster", "audio": null, "status": "pending", "durationSec": null}, {"id": "c27", "kind": "chapter", "num": 24, "label": null, "title": "The Second Hearth", "audio": null, "status": "pending", "durationSec": null}, {"id": "c28", "kind": "chapter", "num": 25, "label": null, "title": "The Glade", "audio": null, "status": "pending", "durationSec": null}, {"id": "c29", "kind": "chapter", "num": 26, "label": null, "title": "The Boundary Stones", "audio": null, "status": "pending", "durationSec": null}, {"id": "c30", "kind": "chapter", "num": 27, "label": null, "title": "Forty Crowns", "audio": null, "status": "pending", "durationSec": null}, {"id": "c31", "kind": "chapter", "num": 28, "label": null, "title": "No Such Name", "audio": null, "status": "pending", "durationSec": null}, {"id": "c32", "kind": "interlude", "num": null, "label": "Interlude", "title": "The Gate at Marrin's Cross", "audio": null, "status": "pending", "durationSec": null}, {"id": "c33", "kind": "chapter", "num": 29, "label": null, "title": "The Archives", "audio": null, "status": "pending", "durationSec": null}, {"id": "c34", "kind": "interlude", "num": null, "label": "Interlude", "title": "The Left Thumb", "audio": null, "status": "pending", "durationSec": null}, {"id": "c35", "kind": "chapter", "num": 30, "label": null, "title": "Below the First Ground", "audio": null, "status": "pending", "durationSec": null}, {"id": "c36", "kind": "chapter", "num": 31, "label": null, "title": "Died on the Road", "audio": null, "status": "pending", "durationSec": null}, {"id": "c37", "kind": "chapter", "num": 32, "label": null, "title": "Beast-Slayer", "audio": null, "status": "pending", "durationSec": null}, {"id": "c38", "kind": "chapter", "num": 33, "label": null, "title": "Complicity", "audio": null, "status": "pending", "durationSec": null}, {"id": "c39", "kind": "chapter", "num": 34, "label": null, "title": "A Plain Woman", "audio": null, "status": "pending", "durationSec": null}, {"id": "c40", "kind": "chapter", "num": 35, "label": null, "title": "The Envoy", "audio": null, "status": "pending", "durationSec": null}, {"id": "c41", "kind": "chapter", "num": 36, "label": null, "title": "The Platform", "audio": null, "status": "pending", "durationSec": null}, {"id": "c42", "kind": "chapter", "num": 37, "label": null, "title": "The Half-Rescue", "audio": null, "status": "pending", "durationSec": null}, {"id": "c43", "kind": "chapter", "num": 38, "label": null, "title": "Board and Piece", "audio": null, "status": "pending", "durationSec": null}, {"id": "c44", "kind": "interlude", "num": null, "label": "Interlude", "title": "The Board", "audio": null, "status": "pending", "durationSec": null}, {"id": "c45", "kind": "chapter", "num": 39, "label": null, "title": "The Fifth Day", "audio": null, "status": "pending", "durationSec": null}, {"id": "c46", "kind": "chapter", "num": 40, "label": null, "title": "Three Terraces", "audio": null, "status": "pending", "durationSec": null}, {"id": "c47", "kind": "chapter", "num": 41, "label": null, "title": "What I Carried", "audio": null, "status": "pending", "durationSec": null}, {"id": "c48", "kind": "chapter", "num": 42, "label": null, "title": "The Anchor", "audio": null, "status": "pending", "durationSec": null}, {"id": "c49", "kind": "chapter", "num": 43, "label": null, "title": "The Sixth Terrace Stair", "audio": null, "status": "pending", "durationSec": null}, {"id": "c50", "kind": "chapter", "num": 44, "label": null, "title": "Blade Without a Master", "audio": null, "status": "pending", "durationSec": null}, {"id": "c51", "kind": "frame", "num": null, "label": "After", "title": "The First Door", "audio": null, "status": "pending", "durationSec": null}];
+const AUTHOR_EMAIL = "am0633019@gmail.com";
+
+// --- Utilities ---
+const fmt = (sec) => {
+  if (!isFinite(sec) || sec == null) return '—';
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  return `${m}:${String(s).padStart(2,'0')}`;
+};
+
+// SVG icons (inline)
+const ICON_PLAY  = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>';
+const ICON_PAUSE = '<svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z" fill="currentColor"/></svg>';
+const ICON_LOCK  = '<svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 015 5v3h1a2 2 0 012 2v9a2 2 0 01-2 2H6a2 2 0 01-2-2v-9a2 2 0 012-2h1V7a5 5 0 015-5zm0 2a3 3 0 00-3 3v3h6V7a3 3 0 00-3-3z" fill="currentColor"/></svg>';
+const ICON_CLOCK = '<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2a8 8 0 110 16 8 8 0 010-16zm1 3h-2v6l5 3 1-1.7-4-2.4V7z" fill="currentColor"/></svg>';
+
+// --- Render chapter list ---
+const listEl = document.getElementById('chapterList');
+let availableCount = 0;
+
+CHAPTERS.forEach((c) => {
+  const li = document.createElement('li');
+  li.className = 'row ' + c.kind + ' ' + c.status;
+  li.dataset.id = c.id;
+
+  // Number/label column
+  const numEl = document.createElement('div');
+  numEl.className = 'num';
+  if (c.kind === 'chapter' && c.num) numEl.textContent = String(c.num).padStart(2,'0');
+  else if (c.kind === 'chapter') numEl.textContent = '·';
+  else numEl.textContent = '';
+
+  // Body
+  const bodyEl = document.createElement('div');
+  bodyEl.className = 'body';
+  const kicker = document.createElement('div');
+  kicker.className = 'kicker';
+  if (c.kind === 'frame') kicker.textContent = c.label;
+  else if (c.kind === 'interlude') kicker.textContent = c.label;
+  bodyEl.appendChild(kicker);
+  const titleEl = document.createElement('div');
+  titleEl.className = 'title';
+  titleEl.textContent = c.title;
+  bodyEl.appendChild(titleEl);
+  const metaEl = document.createElement('div');
+  metaEl.className = 'meta';
+  if (c.status === 'available' && c.durationSec) metaEl.textContent = fmt(c.durationSec);
+  else if (c.status === 'pending' && c.durationSec) metaEl.textContent = 'Coming soon · ' + fmt(c.durationSec);
+  else if (c.status === 'pending') metaEl.textContent = 'Coming soon';
+  bodyEl.appendChild(metaEl);
+
+  // Action button
+  const btn = document.createElement('button');
+  btn.className = 'action';
+  btn.type = 'button';
+  if (c.status === 'available') btn.innerHTML = ICON_PLAY;
+  else if (c.status === 'ready') btn.innerHTML = ICON_CLOCK;
+  else btn.innerHTML = ICON_LOCK;
+
+  li.appendChild(numEl);
+  li.appendChild(bodyEl);
+  li.appendChild(btn);
+  listEl.appendChild(li);
+
+  if (c.status === 'available') {
+    availableCount++;
+    li.addEventListener('click', () => playChapter(c.id));
+  }
+});
+
+document.getElementById('progressCount').textContent = `${availableCount} of ${CHAPTERS.length} recordings available`;
+
+// --- Audio player ---
+const audio = document.getElementById('audio');
+const playerEl = document.getElementById('player');
+const playBtn = document.getElementById('playBtn');
+const fwdBtn = document.getElementById('fwdBtn');
+const closeBtn = document.getElementById('closeBtn');
+const nowTitle = document.getElementById('nowTitle');
+const nowSub = document.getElementById('nowSub');
+const scrubber = document.getElementById('scrubber');
+const curTime = document.getElementById('curTime');
+const totTime = document.getElementById('totTime');
+let currentId = null;
+let scrubbing = false;
+
+// Position persistence (per-listener, per-chapter)
+const POS_KEY = 'cos-positions-v1';
+function loadPositions() {
+  try { return JSON.parse(localStorage.getItem(POS_KEY) || '{}'); } catch(e) { return {}; }
+}
+function savePosition(id, t) {
+  try {
+    const p = loadPositions();
+    if (t < 5 || (audio.duration && t > audio.duration - 5)) delete p[id];
+    else p[id] = t;
+    localStorage.setItem(POS_KEY, JSON.stringify(p));
+  } catch(e) {}
+}
+
+function chapterSub(c) {
+  if (c.kind === 'chapter' && c.num) return `Chapter ${c.num}`;
+  if (c.kind === 'interlude') return c.label || 'Interlude';
+  if (c.kind === 'frame') return c.label || '';
+  return 'Now playing';
+}
+
+function updateMediaSession(c) {
+  if (!('mediaSession' in navigator)) return;
+  try {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: c.title,
+      artist: chapterSub(c),
+      album: 'Crown of Sirens · Songs of the Eternal Oath, Book One',
+    });
+    navigator.mediaSession.setActionHandler('play', () => audio.play());
+    navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+    navigator.mediaSession.setActionHandler('seekbackward', (d) => { audio.currentTime = Math.max(0, audio.currentTime - (d.seekOffset || 15)); });
+    navigator.mediaSession.setActionHandler('seekforward', (d) => { audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + (d.seekOffset || 15)); });
+    try { navigator.mediaSession.setActionHandler('seekto', (d) => { if (d.fastSeek && 'fastSeek' in audio) audio.fastSeek(d.seekTime); else audio.currentTime = d.seekTime; }); } catch(e) {}
+  } catch(e) {}
+}
+
+function playChapter(id) {
+  const c = CHAPTERS.find(x => x.id === id);
+  if (!c || c.status !== 'available' || !c.audio) return;
+  document.querySelectorAll('.row').forEach(r => r.classList.remove('playing'));
+  const row = document.querySelector('.row[data-id="' + id + '"]');
+  if (row) row.classList.add('playing');
+  if (currentId !== id) {
+    audio.src = c.audio;
+    currentId = id;
+    nowTitle.textContent = c.title;
+    nowSub.textContent = chapterSub(c);
+    updateMediaSession(c);
+    const positions = loadPositions();
+    if (positions[id]) {
+      const resumeAt = positions[id];
+      const onMeta = () => { audio.currentTime = resumeAt; audio.removeEventListener('loadedmetadata', onMeta); };
+      audio.addEventListener('loadedmetadata', onMeta);
+    }
+  }
+  playerEl.classList.add('active');
+  audio.play().catch(() => {});
+}
+
+playBtn.addEventListener('click', () => {
+  if (audio.paused) audio.play().catch(() => {}); else audio.pause();
+});
+fwdBtn.addEventListener('click', () => {
+  audio.currentTime = Math.min((audio.duration || 0), audio.currentTime + 15);
+});
+audio.addEventListener('play', () => { playBtn.innerHTML = ICON_PAUSE; if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing'; });
+audio.addEventListener('pause', () => { playBtn.innerHTML = ICON_PLAY; if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused'; });
+audio.addEventListener('timeupdate', () => {
+  if (!scrubbing) {
+    curTime.textContent = fmt(audio.currentTime);
+    if (audio.duration && isFinite(audio.duration)) {
+      totTime.textContent = fmt(audio.duration);
+      scrubber.value = (audio.currentTime / audio.duration) * 100;
+    }
+  }
+  if (currentId && Math.floor(audio.currentTime) % 5 === 0) savePosition(currentId, audio.currentTime);
+});
+audio.addEventListener('loadedmetadata', () => { totTime.textContent = fmt(audio.duration); });
+audio.addEventListener('ended', () => {
+  document.querySelectorAll('.row').forEach(r => r.classList.remove('playing'));
+  if (currentId) savePosition(currentId, 0);
+});
+scrubber.addEventListener('input', () => {
+  scrubbing = true;
+  if (audio.duration && isFinite(audio.duration)) curTime.textContent = fmt((scrubber.value / 100) * audio.duration);
+});
+scrubber.addEventListener('change', () => {
+  if (audio.duration && isFinite(audio.duration)) audio.currentTime = (scrubber.value / 100) * audio.duration;
+  scrubbing = false;
+});
+closeBtn.addEventListener('click', () => {
+  if (currentId) savePosition(currentId, audio.currentTime);
+  audio.pause();
+  playerEl.classList.remove('active');
+  document.querySelectorAll('.row').forEach(r => r.classList.remove('playing'));
+  currentId = null;
+});
+
+// --- Feedback form ---
+const fbChapter = document.getElementById('fbChapter');
+const optAny = document.createElement('option');
+optAny.value = 'General';
+optAny.textContent = 'General — the audiobook as a whole';
+fbChapter.appendChild(optAny);
+CHAPTERS.forEach(c => {
+  if (c.kind === 'frame') {
+    const opt = document.createElement('option');
+    opt.value = `${c.label} — ${c.title}`;
+    opt.textContent = `${c.label} — ${c.title}`;
+    fbChapter.appendChild(opt);
+  } else if (c.kind === 'interlude') {
+    const opt = document.createElement('option');
+    opt.value = `Interlude — ${c.title}`;
+    opt.textContent = `Interlude — ${c.title}`;
+    fbChapter.appendChild(opt);
+  } else {
+    const opt = document.createElement('option');
+    const label = c.num ? `Chapter ${c.num} — ${c.title}` : c.title;
+    opt.value = label;
+    opt.textContent = label;
+    fbChapter.appendChild(opt);
+  }
+});
+
+document.getElementById('feedbackForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const chapter = fbChapter.value;
+  const name = document.getElementById('fbName').value.trim() || 'a listener';
+  const note = document.getElementById('fbNote').value.trim();
+  if (!note) return;
+  const subject = `Crown of Sirens — ${chapter}`;
+  const body = `From: ${name}\nOn: ${chapter}\n\n${note}\n`;
+  const href = `mailto:${AUTHOR_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = href;
+  document.getElementById('fbSent').style.display = 'block';
+});
+
+// --- Theme toggle ---
+const themeToggle = document.getElementById('themeToggle');
+function currentTheme() {
+  return document.documentElement.getAttribute('data-theme')
+    || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+}
+themeToggle.addEventListener('click', () => {
+  const next = currentTheme() === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('cos-theme', next); } catch(e) {}
+});
+try {
+  const saved = localStorage.getItem('cos-theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+} catch(e) {}
+</script>
+
+</body>
+</html>
