@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#F7F5EE" media="(prefers-color-scheme: light)">
 <meta name="description" content="Crown of Sirens — an audiobook by Adam Martin, Book One of Songs of the Eternal Oath.">
 <meta property="og:title" content="Crown of Sirens">
-<meta property="og:description" content="An audiobook — Songs of the Eternal Oath, Book One. Written and read by Adam Martin.">
+<meta property="og:description" content="An audiobook — Songs of the Eternal Oath, Book One. Written by Adam Martin.">
 <meta property="og:type" content="music.album">
 <meta property="og:image" content="./cover.jpg">
 <link rel="icon" href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCABAAEADASIAAhEBAxEB/8QAGQAAAwEBAQAAAAAAAAAAAAAABAUGAwII/8QAMBAAAgEDAwMBCAEEAwAAAAAAAQIDAAQRBRIhEzFBYQYUIjJRcYGRFSNigqGiscH/xAAYAQADAQEAAAAAAAAAAAAAAAAAAQMCBP/EABsRAAMBAQEBAQAAAAAAAAAAAAABEQIDEkEi/9oADAMBAAIRAxEAPwDzDCgbv2oyCxMinaM47+lYWqguNw4PGarfZ/TGdkuC6xRoclmPzf2geSfpRrUVLcOL7a8on7VUtnK3Fsk6kju5XA9CKYjT0dRtsEYSA7SJGJGTwfxWupqhvW6ChYmPwhuMDNML/WG0XTobeyKe8AdQlwCY844H37/qmnUT6Y8aeQTUNIjs4t8mnxozLkDqNx+M0knhinaNYbVIjnBKsx3fvtimLe1N3eWbR3mJpFXHVYfGB9M0z0zS7a2tobq5mQREKcnjcDz/ALpmCebS+jC0s4KqvBGOc0tuemc9MED1qh1B7u8eVgSLdjwoGFH0pJeW5iPpjNKjh3YxMWGBk5AxjNH6vdiK3jgUn4ZOqpB+VhxXPs8yvciLO0y/DvzjbQuvKU1DYAQqfKrd+/c+prP2HSk88vS+jmLZeCGeTjqDPf8A6oDVGRtRunWJblsHcNpPTCjH7NEQkSWcUUeTuYyZ8Lk9hRk45u2LAMtnIdoPJIxljjz4/FNIl1f6pKbIEiZ1nzuBwjAhgfXxVXoUB1KG0DyDGArZ9KjkQPE8jeMfk1Vexr9SLZk5jf8A4mlpxGEqx1JqNtcatLYxI8UOwW0MfrnliPJPegvbnTv41reN9nUeJWYKc7eOx9e/FYS6hGdZDPErKGEWQcEjPJyPOT3+1Be0MzTzhvHYD0FRyn6RXTUYpsy6uMHHkV3OvvUxYE7wcAHyKFilK4A/3W3vOwgKOPJ8iugmtRQZWPUhhLHK7Oee1Z6UGkfVGOSTZSE5/wAaGEF9LIknQumLDAxGSWAGe2Ppz9uaY6K5ik1JHtbgySW7QCNYyzKxxjPr8J4oMsnxIy27wcBS24/qmGgX8dm0vWJCsvGBnmsJrZ9vUaORUaPerFCNwzjI9M5Ga4axukdFNrcK7kqoMbAsR3A45IyM0mqNODYxlrmJ0+QsDn/ysdVkBmZge3ApfDcPGPhbaDXE8xkJLHOf0KSUYNmINGWdjLPGswaKKHqiIPK2FLnkD9d/A80DRltqM0FqbbEckBlEwSRcgOBjI/HBHY+a0Ip9RdrDVptYvLaSN7h7gvbMwYKxEkTL2wQGzwTnaPzWt/LJPMyzwywyxv8AywAm+JVEaEqCRyuANhGcDI5Oal77VLnURCl3LnaWJfnLFnLlm+pyxppJqPTtTHFqNq8SQSwpF0X4Enzbc9s4B+gJPFIB9Bc3/vNvHc2ltN77PMCqz7VMMyCVocYyBlgwPg8d6A06a8Wwl6sa3dqsx646m0xSv8kygjKgFtrHGDnafBodtZYz2kn8laP7tjo77d/6eIwmPsQBkZ78+TlVBrNzZXYktDCGjckMEJDjaFIIbOVIHINAA13YT2cNvJMFCzLujwT8S5IyOMYyD9vOKDJoufUZ5bKO0JUQI/UCgH5yMFvuR3xjPmgyaYH/2Q==">
@@ -132,14 +132,49 @@ h1 {
   margin: 0;
 }
 
-/* ---------- About / intro copy ---------- */
-.intro {
-  padding: 20px 0 8px;
+/* ---------- Blurb (collapsible "About the book") ---------- */
+.blurb {
+  margin: 20px 0 8px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.blurb summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 16px 4px;
+  display: flex; align-items: center; justify-content: space-between;
+  color: var(--ink);
+  font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+  transition: color 120ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.blurb summary::-webkit-details-marker { display: none; }
+.blurb summary::marker { content: ''; }
+.blurb summary:hover { color: var(--accent); }
+.blurb .summary-icon {
+  width: 14px; height: 14px; position: relative; flex-shrink: 0;
+}
+.blurb .summary-icon::before, .blurb .summary-icon::after {
+  content: ''; position: absolute; background: currentColor;
+  left: 50%; top: 50%;
+  transition: transform 200ms ease;
+}
+.blurb .summary-icon::before { width: 12px; height: 1.5px; margin-left: -6px; margin-top: -0.75px; }
+.blurb .summary-icon::after { width: 1.5px; height: 12px; margin-left: -0.75px; margin-top: -6px; }
+.blurb[open] .summary-icon::after { transform: rotate(90deg); }
+.blurb-body {
+  padding: 4px 4px 24px;
   color: var(--ink-soft);
   font-size: 15.5px;
   max-width: 62ch;
+  line-height: 1.6;
 }
-.intro p { margin: 0 0 12px; }
+.blurb-body p { margin: 0 0 14px; }
+.blurb-body p:last-child { margin-bottom: 0; }
+.blurb-body em {
+  font-style: italic; color: var(--ink);
+  font-family: var(--font-display); font-size: 17px;
+}
 
 /* ---------- Section labels ---------- */
 .section-label {
@@ -533,14 +568,20 @@ footer {
     <div>
       <div class="eyebrow">Songs of the Eternal Oath · Book One</div>
       <h1>Crown of Sirens</h1>
-      <p class="byline">Written and read by Adam Martin</p>
+      <p class="byline">Written by Adam Martin · Read by AI-assisted tools</p>
     </div>
   </header>
 
-  <section class="intro">
-    <p>You asked me, in the yard, why I never talk about it. The honest answer is that I have been putting it off for eleven years and running out of reasons.</p>
-    <p>What follows is Elion's account of the year the sand turned. Set down as truthfully as one man can, eleven years on — with all the qualifications that entails.</p>
-  </section>
+  <details class="blurb">
+    <summary><span class="summary-label">About the book</span><span class="summary-icon" aria-hidden="true"></span></summary>
+    <div class="blurb-body">
+      <p><em>A knight is meant to serve the Crown. Lucan Greyhand is about to discover what the Crown serves.</em></p>
+      <p>For thirteen years, Lucan has endured hunger, violence and brutal training for the chance to become a knight. All that remains is the Severing — the final trial he must survive to earn his place.</p>
+      <p>Lucan survives. What follows was never part of the promise. His closest friend is dead. The people Lucan trusted are changing. And he has walked away from something no one was meant to resist.</p>
+      <p>Hunted by the kingdom he devoted his life to, Lucan flees east with a stolen Elven sword and a warning he does not understand. Behind him come soldiers who move faster than men should. Ahead lie the boundary stones of Elarion, an Elven city that has not welcomed a human in generations.</p>
+      <p>To save those he left behind, Lucan must persuade a people with every reason to distrust him to believe his impossible story. But some truths have been buried for a reason — and something beneath Halvengar knows he escaped.</p>
+    </div>
+  </details>
 
   <div class="section-label">
     <span>The Recording</span>
