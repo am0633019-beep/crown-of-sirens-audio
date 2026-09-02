@@ -542,28 +542,40 @@ h1 {
   cursor: pointer; border: 3px solid var(--bg);
 }
 .nowplaying .np-controls {
-  display: flex; justify-content: center; align-items: center; gap: 28px;
+  display: flex; justify-content: center; align-items: center; gap: 18px;
 }
+@media (min-width: 420px) { .nowplaying .np-controls { gap: 24px; } }
 .nowplaying .np-controls button {
   background: transparent; border: none; color: var(--ink);
   cursor: pointer; padding: 0;
   display: grid; place-items: center;
   position: relative;
+  transition: opacity 120ms ease, background 120ms ease;
+}
+.nowplaying .np-controls button:disabled {
+  opacity: 0.3; cursor: not-allowed;
+}
+.nowplaying .np-prev, .nowplaying .np-next {
+  width: 44px; height: 44px; border-radius: 50%;
+}
+.nowplaying .np-prev svg, .nowplaying .np-next svg { width: 22px; height: 22px; }
+.nowplaying .np-prev:not(:disabled):hover, .nowplaying .np-next:not(:disabled):hover {
+  background: var(--bg-hover);
 }
 .nowplaying .np-back, .nowplaying .np-fwd {
-  width: 52px; height: 52px; border-radius: 50%;
+  width: 48px; height: 48px; border-radius: 50%;
   border: 1px solid var(--line);
 }
-.nowplaying .np-back svg, .nowplaying .np-fwd svg { width: 22px; height: 22px; }
+.nowplaying .np-back svg, .nowplaying .np-fwd svg { width: 20px; height: 20px; }
 .nowplaying .np-back .num, .nowplaying .np-fwd .num {
-  position: absolute; font-family: var(--font-mono); font-size: 10px; color: var(--ink);
+  position: absolute; font-family: var(--font-mono); font-size: 9px; color: var(--ink);
   pointer-events: none;
 }
 .nowplaying .np-play {
-  width: 80px; height: 80px; border-radius: 50%;
+  width: 76px; height: 76px; border-radius: 50%;
   background: var(--accent); color: var(--bg);
 }
-.nowplaying .np-play svg { width: 30px; height: 30px; }
+.nowplaying .np-play svg { width: 28px; height: 28px; }
 .player .scrub input[type=range] {
   width: 100%; -webkit-appearance: none; appearance: none;
   height: 24px; /* wide hit area on touch */
@@ -733,16 +745,22 @@ footer {
       <span id="npTotTime">0:00</span>
     </div>
     <div class="np-controls">
-      <button class="np-back" id="npBackBtn" aria-label="Back 15 seconds">
+      <button class="np-prev" id="npPrevBtn" aria-label="Previous chapter" title="Previous chapter">
+        <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zM9.5 12l10 6V6l-10 6z" fill="currentColor"/></svg>
+      </button>
+      <button class="np-back" id="npBackBtn" aria-label="Back 15 seconds" title="Back 15 seconds">
         <svg viewBox="0 0 24 24"><path d="M12 5V2l-5 4 5 4V7c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6H4c0 4.4 3.6 8 8 8s8-3.6 8-8-3.6-8-8-8z" fill="currentColor" transform="scale(-1,1) translate(-24,0)"/></svg>
         <span class="num">15</span>
       </button>
       <button class="np-play" id="npPlayBtn" aria-label="Play or pause">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
       </button>
-      <button class="np-fwd" id="npFwdBtn" aria-label="Forward 15 seconds">
+      <button class="np-fwd" id="npFwdBtn" aria-label="Forward 15 seconds" title="Forward 15 seconds">
         <svg viewBox="0 0 24 24"><path d="M12 5V2L7 6l5 4V7c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6H4c0 4.4 3.6 8 8 8s8-3.6 8-8-3.6-8-8-8z" fill="currentColor"/></svg>
         <span class="num">15</span>
+      </button>
+      <button class="np-next" id="npNextBtn" aria-label="Next chapter" title="Next chapter">
+        <svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM4.5 6v12l10-6-10-6z" fill="currentColor"/></svg>
       </button>
     </div>
   </div>
@@ -958,6 +976,7 @@ function playChapter(id) {
     // Reset the flip if it was showing the previous chapter's back
     document.getElementById('npCover').classList.remove('flipped');
     updateMediaSession(c);
+    refreshPrevNext();
     const positions = loadPositions();
     if (positions[id]) {
       const resumeAt = positions[id];
@@ -978,6 +997,53 @@ npCoverEl.addEventListener('click', toggleFlip);
 npCoverEl.addEventListener('keydown', (e) => {
   if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFlip(); }
 });
+
+// --- Previous / Next chapter navigation ---
+const npPrevBtn = document.getElementById('npPrevBtn');
+const npNextBtn = document.getElementById('npNextBtn');
+function siblingAvailableChapter(dir) {
+  if (!currentId) return null;
+  const idx = CHAPTERS.findIndex(c => c.id === currentId);
+  if (idx < 0) return null;
+  let i = idx + dir;
+  while (i >= 0 && i < CHAPTERS.length) {
+    if (CHAPTERS[i].status === 'available' && CHAPTERS[i].audio) return CHAPTERS[i];
+    i += dir;
+  }
+  return null;
+}
+function refreshPrevNext() {
+  const prev = siblingAvailableChapter(-1);
+  const next = siblingAvailableChapter(1);
+  npPrevBtn.disabled = !prev;
+  npNextBtn.disabled = !next;
+}
+npPrevBtn.addEventListener('click', () => {
+  const prev = siblingAvailableChapter(-1);
+  if (prev) playChapter(prev.id);
+});
+npNextBtn.addEventListener('click', () => {
+  const next = siblingAvailableChapter(1);
+  if (next) playChapter(next.id);
+});
+// Auto-advance to the next chapter when one ends
+audio.addEventListener('ended', () => {
+  const next = siblingAvailableChapter(1);
+  if (next) playChapter(next.id);
+});
+// Media Session next/previous track buttons (headphones, lock screen)
+if ('mediaSession' in navigator) {
+  try {
+    navigator.mediaSession.setActionHandler('previoustrack', () => {
+      const prev = siblingAvailableChapter(-1);
+      if (prev) playChapter(prev.id);
+    });
+    navigator.mediaSession.setActionHandler('nexttrack', () => {
+      const next = siblingAvailableChapter(1);
+      if (next) playChapter(next.id);
+    });
+  } catch(e) {}
+}
 
 playBtn.addEventListener('click', () => {
   if (audio.paused) audio.play().catch(() => {}); else audio.pause();
